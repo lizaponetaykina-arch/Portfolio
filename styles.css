@@ -36,8 +36,9 @@ nav a, .header-contact { display: inline-flex; align-items: center; min-height: 
 .hero { display: grid; grid-template-columns: 55% 45%; background: var(--wine); color: var(--cream); }
 .hero-copy { padding: 80px 9% 64px; }
 .eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; }
-.hero h1 { font-size: clamp(76px, 8vw, 112px); font-weight: 800; margin: 36px 0 28px; line-height: 1.02; }
-.hero h1 em { display: inline-block; font-size: .49em; letter-spacing: -.035em; font-style: normal; margin-top: 12px; }
+.hero h1 { font-size: clamp(92px, 9vw, 128px); font-weight: 800; margin: 36px 0 28px; line-height: .9; }
+.hero h1 span { display: block; }
+.hero h1 em { display: block; font-size: .43em; line-height: 1; letter-spacing: -.035em; font-style: normal; margin-top: 8px; }
 .hero-description { max-width: 410px; font-size: 17px; color: var(--on-wine); }
 .button { display: inline-flex; align-items: center; justify-content: space-between; gap: 48px; padding: 17px 24px; text-decoration: none; font-size: 15px; font-weight: 600; min-height: 56px; transition: background 180ms ease, transform 140ms var(--ease-out); }
 .button-light { background: var(--cream); color: var(--wine); }
@@ -45,7 +46,7 @@ nav a, .header-contact { display: inline-flex; align-items: center; min-height: 
 .hero .button { margin-top: 32px; }
 .hero-next { display: flex; align-items: center; justify-content: space-between; min-height: 44px; max-width: 300px; font-size: 14px; text-decoration: none; margin-top: 22px; color: var(--on-wine); }
 .hero-portrait { position: relative; overflow: hidden; background: var(--cream); }
-.hero-portrait img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; object-position: center 60%; }
+.hero-portrait img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; object-position: center 60%; transform: scale(1.2); transform-origin: 50% 70%; }
 .section { padding: 88px 5%; max-width: 1600px; margin: auto; }
 .section-heading { margin-bottom: 48px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 60px; }
 .section-heading .eyebrow { display: none; }
@@ -133,7 +134,7 @@ body:has(dialog[open]) { overflow: hidden; }
 }
 @media (max-width: 1000px) {
   .hero-copy { padding-top: 56px; padding-bottom: 48px; }
-  .hero h1 { font-size: 80px; }
+  .hero h1 { font-size: 92px; }
   .hero .eyebrow { max-width: 270px; }
   .section { padding-top: 72px; padding-bottom: 72px; }
   .case, .about { gap: 5%; }
@@ -159,8 +160,8 @@ body:has(dialog[open]) { overflow: hidden; }
   .hero { grid-template-columns: 1.1fr 1fr; gap: 24px 16px; padding: 32px 24px 28px; align-items: center; }
   .hero-copy { display: contents; }
   .hero .eyebrow { grid-column: 1/-1; max-width: none; font-size: 11px; text-transform: none; letter-spacing: .02em; }
-  .hero h1 { grid-column: 1; grid-row: 2; font-size: clamp(52px, 13.6vw, 82px); margin: 0; align-self: center; }
-  .hero h1 em { font-size: .43em; margin-top: 16px; letter-spacing: -.035em; }
+  .hero h1 { grid-column: 1; grid-row: 2; font-size: clamp(56px, 16vw, 96px); margin: 0; align-self: center; }
+  .hero h1 em { font-size: .38em; margin-top: 4px; letter-spacing: -.035em; }
   .hero-portrait { grid-column: 2; grid-row: 2; width: 100%; aspect-ratio: .61; }
   .hero-description { grid-column: 1/-1; font-size: 16px; max-width: 480px; }
   .hero .button { grid-column: 1/-1; margin: 0; width: 100%; }
@@ -206,7 +207,7 @@ body:has(dialog[open]) { overflow: hidden; }
   .header { padding: 0 16px; gap: 8px; }
   nav { gap: 12px; }
   .hero { padding-left: 20px; padding-right: 20px; }
-  .hero h1 { font-size: 48px; }
+  .hero h1 { font-size: 54px; }
   .hero .eyebrow { font-size: 12px; }
   .metrics { gap: 12px; }
   .metrics strong { font-size: 32px; }
