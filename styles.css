@@ -45,7 +45,7 @@ nav a, .header-contact { display: inline-flex; align-items: center; min-height: 
 .hero .button { margin-top: 32px; }
 .hero-next { display: flex; align-items: center; justify-content: space-between; min-height: 44px; max-width: 300px; font-size: 14px; text-decoration: none; margin-top: 22px; color: var(--on-wine); }
 .hero-portrait { position: relative; overflow: hidden; background: var(--cream); }
-.hero-portrait img { width: 294%; height: auto; max-width: none; position: absolute; right: 0; top: 0; }
+.hero-portrait img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; object-position: center 60%; }
 .section { padding: 88px 5%; max-width: 1600px; margin: auto; }
 .section-heading { margin-bottom: 48px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 60px; }
 .section-heading .eyebrow { display: none; }
