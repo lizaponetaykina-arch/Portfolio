@@ -1,7 +1,29 @@
 /* Independent of the gallery module: motion never waits for a dependency. */
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .case-image, .story-heading, .story-card, .visual-intro, .service-grid article, .about-copy, .about-photo, .steps li, .contact-copy > *, .contact-photo')];
+  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .case-image, .story-heading, .visual-intro, .service-grid article, .about-copy, .about-photo, .steps li, .contact-copy > *, .contact-photo')];
+  const portrait = document.querySelector('.hero-portrait');
+  const portraitImage = portrait?.querySelector('img');
+  let portraitAnimation;
+  if (portraitImage && !reduced.matches) {
+    portrait.classList.add('portrait-pending');
+    // Decode first: a slow image must not appear halfway through its entrance.
+    portraitImage.decode().catch(() => {}).then(() => {
+      if (!reduced.matches) {
+        portraitAnimation = portrait.animate([
+          { opacity: 0, transform: 'translateY(12px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], { duration: 1600, easing: 'cubic-bezier(.4,0,.2,1)' });
+      }
+      portrait.classList.remove('portrait-pending');
+    });
+  }
+  reduced.addEventListener('change', () => {
+    if (reduced.matches) {
+      portraitAnimation?.cancel();
+      portrait?.classList.remove('portrait-pending');
+    }
+  });
   let observer;
   function setupReveals() {
     observer?.disconnect();
