@@ -7,8 +7,19 @@
   let portraitAnimation;
   if (portraitImage && !reduced.matches) {
     portrait.classList.add('portrait-pending');
-    // Decode first: a slow image must not appear halfway through its entrance.
-    portraitImage.decode().catch(() => {}).then(() => {
+    // Wait for both the first scroll and decoded pixels before the entrance.
+    const firstScroll = new Promise(resolve => {
+      if (scrollY > 0) { resolve(); return; }
+      const start = () => {
+        if (scrollY <= 0 && !reduced.matches) return;
+        removeEventListener('scroll', start);
+        reduced.removeEventListener('change', start);
+        resolve();
+      };
+      addEventListener('scroll', start, {passive: true});
+      reduced.addEventListener('change', start);
+    });
+    Promise.all([portraitImage.decode().catch(() => {}), firstScroll]).then(() => {
       if (!reduced.matches) {
         portraitAnimation = portrait.animate([
           { opacity: 0, transform: 'translateY(12px)' },
