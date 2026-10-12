@@ -1,0 +1,130 @@
+{
+  "portrait-480.webp": {
+    "width": 480,
+    "height": 705
+  },
+  "portrait-800.webp": {
+    "width": 800,
+    "height": 1176
+  },
+  "portrait-1200.webp": {
+    "width": 1200,
+    "height": 1764
+  },
+  "clinic-1.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "clinic-1-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "clinic-2.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "clinic-2-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "clinic-3.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "clinic-3-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "clinic-4.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "clinic-4-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "clinic-5.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "clinic-5-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "coffee-1.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "coffee-1-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "coffee-2.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "coffee-2-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "coffee-3.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "coffee-3-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "coffee-4.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "coffee-4-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "coffee-5.webp": {
+    "width": 1080,
+    "height": 1920
+  },
+  "coffee-5-540.webp": {
+    "width": 540,
+    "height": 960
+  },
+  "vr-before.webp": {
+    "width": 464,
+    "height": 852
+  },
+  "vr-after.webp": {
+    "width": 464,
+    "height": 852
+  },
+  "auto-before.webp": {
+    "width": 444,
+    "height": 733
+  },
+  "auto-after.webp": {
+    "width": 444,
+    "height": 733
+  },
+  "restaurant-before.webp": {
+    "width": 450,
+    "height": 817
+  },
+  "restaurant-after.webp": {
+    "width": 450,
+    "height": 817
+  },
+  "auto-content.webp": {
+    "width": 550,
+    "height": 1135
+  },
+  "pub-evidence.webp": {
+    "width": 520,
+    "height": 1140
+  },
+  "about.webp": {
+    "width": 800,
+    "height": 1054
+  }
+}
