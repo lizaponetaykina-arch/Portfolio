@@ -38,7 +38,8 @@
     const y = scrollY;
     scenes.forEach(scene => {
       if (!scene.enabled) return;
-      const progress = Math.max(0, Math.min(1, ((y - scene.start) / scene.distance - .15) / .7));
+      const linear = Math.max(0, Math.min(1, ((y - scene.start) / scene.distance - .1) / .8));
+      const progress = linear * linear * (3 - 2 * linear);
       scene.before.style.transform = `translate3d(${-110 * progress}%,0,0)`;
       scene.after.style.transform = `translate3d(${110 * (1 - progress)}%,0,0)`;
       // Offstage frames stay in the lightbox collection but not in the tab order.

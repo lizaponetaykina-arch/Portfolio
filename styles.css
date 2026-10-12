@@ -33,7 +33,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 nav { display: flex; gap: 28px; }
 nav a, .header-contact { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-size: 14px; }
 .header-contact span { margin-left: 20px; }
-.hero { display: grid; grid-template-columns: 55% 45%; background: var(--wine); color: var(--cream); }
+.hero { display: grid; grid-template-columns: 50% 50%; background: var(--wine); color: var(--cream); }
 .hero-copy { padding: 80px 9% 64px; }
 .eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; }
 .hero h1 { font-size: clamp(92px, 9vw, 128px); font-weight: 800; margin: 36px 0 28px; line-height: .9; }
@@ -213,6 +213,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 a[data-viewer] { cursor: zoom-in; }
 section[id], article[id] { scroll-margin-top: 80px; }
 .hero, .contact, .visual-section, .services { border-radius: var(--radius); }
+.hero { border-top-left-radius: 0; border-top-right-radius: 0; }
 .hero-portrait, .about-photo, .contact-photo, .case-image, .story-card { border-radius: var(--radius); overflow: hidden; }
 .button { border-radius: 12px; }
 .hero-portrait { margin: 20px 20px 20px 0; min-height: 540px; }
@@ -229,7 +230,7 @@ section[id], article[id] { scroll-margin-top: 80px; }
 .stat-row { display: flex; justify-content: space-between; gap: 16px; padding: 20px 0; border-top: 1px solid var(--line); font-size: 14px; }
 .stat-row b { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .stat-footnote { display: block; color: var(--muted); font-size: 11px; }
-.phone-frame { aspect-ratio: 560/1080; }
+.phone-frame { aspect-ratio: 540/1080; width: min(100%, 540px); }
 .compare-layer img.phone-source { height: 100%; width: 100%; object-fit: cover; }
 .case-detail { font-size: 15px; color: var(--muted); margin-top: 20px; }
 .case-detail ul { padding-left: 20px; margin: 0; }
@@ -248,15 +249,15 @@ section[id], article[id] { scroll-margin-top: 80px; }
 .comparison-sticky { max-width: 1440px; margin: auto; padding: 24px 5% 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 5%; align-items: center; }
 .comparison-copy h3 { font-size: clamp(32px, 4vw, 56px); }
 .compare-stage { display: grid; gap: 32px; }
-.compare-layer a { display: block; width: fit-content; max-width: 100%; margin: auto; border-radius: 28px; overflow: hidden; }
+.compare-layer a { display: block; width: min(100%, 540px); max-width: 100%; margin: auto; border-radius: 28px; overflow: hidden; }
 .compare-layer img { display: block; width: 100%; height: auto; max-height: 740px; object-fit: contain; }
 .compare-layer figcaption { font-size: 14px; text-align: center; margin-top: 10px; color: var(--on-wine); }
 .comparison-scene + .comparison-scene { border-top: 1px solid var(--wine-line); }
 .comparison-scene.is-scroll-scene { height: calc(100svh + 660px); }
 .is-scroll-scene .comparison-sticky { position: sticky; top: 80px; height: calc(100svh - 80px); }
-.is-scroll-scene .compare-stage { height: min(78svh, 790px); position: relative; display: block; overflow: hidden; border-radius: 24px; }
+.is-scroll-scene .compare-stage { --stage-height: min(calc(100svh - 128px), 860px); height: var(--stage-height); position: relative; display: block; overflow: hidden; border-radius: 24px; }
 .is-scroll-scene .compare-layer { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; }
-.is-scroll-scene .compare-layer a { height: calc(100% - 30px); max-width: 100%; margin: 0 auto; }
+.is-scroll-scene .compare-layer a { width: min(100%, calc((var(--stage-height) - 30px) / 2)); height: auto; flex: none; max-width: 100%; margin: 0 auto; }
 .is-scroll-scene .compare-layer img { width: auto; height: 100%; max-height: none; object-fit: contain; }
 .is-scroll-scene .compare-layer img.phone-source { width: 100%; object-fit: cover; }
 .is-scroll-scene .compare-after { transform: translateX(110%); }
@@ -269,8 +270,13 @@ section[id], article[id] { scroll-margin-top: 80px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 /* Default is visible: an unavailable script never hides the portfolio. */
 .reveal-wait { opacity: 0; transform: translate3d(0, 56px, 0); }
-.reveal-in { transition: opacity 760ms cubic-bezier(.16,1,.3,1), transform 760ms cubic-bezier(.16,1,.3,1); }
+.reveal-in { transition: opacity 950ms cubic-bezier(.16,1,.3,1), transform 950ms cubic-bezier(.16,1,.3,1); }
 .reveal-wait:focus-within { opacity: 1; transform: none; }
+/* Story images open from their top edge; the image itself stays in place. */
+.story-card { clip-path: inset(0 0 0 0); }
+.story-card.reveal-wait { opacity: 1; transform: none; clip-path: inset(0 0 100% 0); }
+.story-card.reveal-in { transition: clip-path 950ms cubic-bezier(.45,0,.2,1); }
+.story-card:focus-within { clip-path: inset(0 0 0 0); transition: none; }
 .pswp { --pswp-bg: var(--wine); --pswp-icon-color: var(--cream); --pswp-icon-color-secondary: var(--wine); --pswp-root-z-index: 100; overscroll-behavior: contain; }
 .pswp__top-bar { top: env(safe-area-inset-top, 0px); padding-right: env(safe-area-inset-right, 0px); }
 .pswp__button { min-width: 48px; min-height: 48px; }
@@ -286,7 +292,7 @@ section[id], article[id] { scroll-margin-top: 80px; }
   :root { --radius: 18px; }
   .header { height: 64px; padding-inline: max(18px, env(safe-area-inset-left)); }
   .header-contact span { margin-left: 4px; }
-  .hero { padding: 28px 22px; grid-template-columns: 1fr 1.06fr; gap: 22px 14px; }
+  .hero { padding: 28px 22px; grid-template-columns: .9fr 1.2fr; gap: 22px 14px; }
   .hero-portrait { min-height: 0; margin: 0; aspect-ratio: .69; }
   .hero h1 { font-size: clamp(54px, 16vw, 100px); }
   .hero h1 em { font-size: .35em; }
@@ -305,7 +311,7 @@ section[id], article[id] { scroll-margin-top: 80px; }
   .comparison-sticky { display: block; padding: 20px 22px; }
   .comparison-copy h3 { font-size: 28px; margin-bottom: 16px; }
   .is-scroll-scene .comparison-sticky { top: 64px; height: calc(100svh - 64px); }
-  .is-scroll-scene .compare-stage { height: calc(100svh - 156px); }
+  .is-scroll-scene .compare-stage { --stage-height: calc(100svh - 144px); height: var(--stage-height); }
   .is-scroll-scene .compare-layer a { max-width: 100%; }
   .compare-layer a { border-radius: 24px; }
   .service-grid article, .service-grid article:nth-child(even) { padding: 24px; }
@@ -318,14 +324,25 @@ section[id], article[id] { scroll-margin-top: 80px; }
   .pswp__button--arrow .pswp__icn { top: 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .story-card.reveal-wait { clip-path: inset(0 0 0 0); }
   html { scroll-behavior: auto; }
   .reveal-wait { opacity: 1; transform: none; }
   .reveal-in { transition: none; }
 }
 @media print {
+  .story-card.reveal-wait { clip-path: inset(0 0 0 0); }
   .reveal-wait { opacity: 1; transform: none; }
   .comparison-scene.is-scroll-scene { height: auto; }
   .is-scroll-scene .comparison-sticky { position: static; height: auto; }
   .is-scroll-scene .compare-stage { height: auto; display: grid; overflow: visible; }
   .is-scroll-scene .compare-layer { position: static; transform: none !important; opacity: 1 !important; }
+}
+
+/* A gentle entrance for the portrait, with no perpetual movement. */
+@keyframes portrait-enter {
+  from { opacity: 0; transform: translateY(16px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-portrait { animation: portrait-enter 1100ms cubic-bezier(.22,1,.36,1) both; }
 }
