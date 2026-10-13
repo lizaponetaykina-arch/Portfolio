@@ -1,0 +1,10 @@
+{
+  "file": "reels-approved.webp",
+  "width": 873,
+  "height": 1801,
+  "method": "User-approved imagegen enhancement, targeted beanie restoration and transparent exterior; lossless WebP encoding",
+  "reference": "assets/work/auto-content.webp",
+  "authorization": "User approved the enhanced quality, requested restoration of the black beanie in row 2 column 2, and explicitly chose to keep the entire phone while removing only its exterior background.",
+  "prompt": "Preserve the approved sharp phone screenshot. Restore the black knit beanie on the man in row 2, middle column, 93,492 views. Remove only the beige exterior around the phone to transparent alpha. Preserve the entire physical phone, white UI, all twelve tiles and counters. No other changes.",
+  "note": "This is an enhanced presentation image, not an unchanged documentary screenshot. Original source retained. Statistical evidence in the separate dialogs remains cropped from original sources."
+}

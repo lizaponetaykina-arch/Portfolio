@@ -1,0 +1,115 @@
+{
+  "method": "Exact source crop, Lanczos3 2x and mild sharpening; no generative restoration",
+  "files": {
+    "reels.webp": {
+      "source": "assets/auto-result.png",
+      "crop": {
+        "left": 149,
+        "top": 411,
+        "width": 500,
+        "height": 825
+      },
+      "width": 1000,
+      "height": 1650
+    },
+    "auto-views.webp": {
+      "source": "assets/auto-stats.png",
+      "crop": {
+        "left": 1725,
+        "top": 292,
+        "width": 450,
+        "height": 910
+      },
+      "width": 900,
+      "height": 1820
+    },
+    "auto-followers.webp": {
+      "source": "assets/auto-result.png",
+      "crop": {
+        "left": 1460,
+        "top": 850,
+        "width": 970,
+        "height": 348
+      },
+      "width": 1940,
+      "height": 696
+    },
+    "pub-views.webp": {
+      "source": "assets/pub-stats.png",
+      "crop": {
+        "left": 1764,
+        "top": 194,
+        "width": 490,
+        "height": 1014
+      },
+      "width": 980,
+      "height": 2028
+    },
+    "vr-before.webp": {
+      "source": "assets/originals/IMG_6335.JPG",
+      "crop": {
+        "left": 287,
+        "top": 140,
+        "width": 464,
+        "height": 824
+      },
+      "width": 928,
+      "height": 1648
+    },
+    "vr-after.webp": {
+      "source": "assets/originals/IMG_6335.JPG",
+      "crop": {
+        "left": 1174,
+        "top": 128,
+        "width": 464,
+        "height": 824
+      },
+      "width": 928,
+      "height": 1648
+    },
+    "auto-before.webp": {
+      "source": "assets/originals/IMG_6336.JPG",
+      "crop": {
+        "left": 295,
+        "top": 198,
+        "width": 444,
+        "height": 733
+      },
+      "width": 888,
+      "height": 1466
+    },
+    "auto-after.webp": {
+      "source": "assets/originals/IMG_6336.JPG",
+      "crop": {
+        "left": 1178,
+        "top": 198,
+        "width": 444,
+        "height": 733
+      },
+      "width": 888,
+      "height": 1466
+    },
+    "restaurant-before.webp": {
+      "source": "assets/originals/IMG_6337.JPG",
+      "crop": {
+        "left": 273,
+        "top": 211,
+        "width": 450,
+        "height": 817
+      },
+      "width": 900,
+      "height": 1634
+    },
+    "restaurant-after.webp": {
+      "source": "assets/originals/IMG_6337.JPG",
+      "crop": {
+        "left": 1176,
+        "top": 211,
+        "width": 450,
+        "height": 817
+      },
+      "width": 900,
+      "height": 1634
+    }
+  }
+}

@@ -1,70 +1,45 @@
-import PhotoSwipeLightbox from './vendor/photoswipe/photoswipe-lightbox.esm.min.js';
-
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-const lightbox = new PhotoSwipeLightbox({
-  gallery: '[data-gallery]', children: 'a[data-viewer]',
-  pswpModule: () => import('./vendor/photoswipe/photoswipe.esm.min.js'),
-  bgOpacity: 1, showHideAnimationType: 'none',
-  showAnimationDuration: 0,
-  hideAnimationDuration: 0,
-  zoomAnimationDuration: reducedMotion.matches ? 0 : 220,
-  initialZoomLevel: 'fit',
-  secondaryZoomLevel: level => Math.max(level.fit * 2.5, 1),
-  maxZoomLevel: level => Math.max(level.fit * 4, 2),
-  paddingFn: () => ({ top: 56, bottom: 56, left: 8, right: 8 }),
-  imageClickAction: 'zoom', tapAction: false, doubleTapAction: 'zoom',
-  closeOnVerticalDrag: false, pinchToClose: false, clickToCloseNonZoomable: false,
-  closeTitle: 'Закрыть', zoomTitle: 'Увеличить или уменьшить',
-  arrowPrevTitle: 'Предыдущее изображение', arrowNextTitle: 'Следующее изображение',
-  errorMsg: 'Изображение не загрузилось. Закройте просмотр и попробуйте ещё раз.',
-  indexIndicatorSep: ' / ',
-});
-lightbox.addFilter('itemData', data => {
-  data.alt = data.element?.dataset.caption || data.alt || '';
-  data.framePosition = data.element?.dataset.framePosition;
-  data.frameY = data.element?.dataset.frameY;
-  data.frameZoom = data.element?.dataset.frameZoom;
-  return data;
-});
-lightbox.on('contentLoadImage', ({content}) => {
-  const position = content.data.framePosition;
-  if (position && content.element) {
-    const y = Number(content.data.frameY || 50);
-    const x = Number(position);
-    const zoom = Number(content.data.frameZoom || 1);
-    const inset = 1 - 1 / zoom;
-    content.element.style.objectFit = 'cover';
-    content.element.style.objectPosition = `${x}% ${y}%`;
-    content.element.style.transformOrigin = `${x}% ${y}%`;
-    content.element.style.transform = `scale(${zoom})`;
-    // Clip before scaling so the visible crop keeps PhotoSwipe's fitted bounds.
-    content.element.style.clipPath = `inset(${inset * y}% ${inset * (100 - x)}% ${inset * (100 - y)}% ${inset * x}%)`;
+(() => {
+  let opener;
+  let previousOverflow;
+  let pagePosition;
+  let locked = false;
+  function restorePage() {
+    if (!locked) return;
+    locked = false;
+    document.documentElement.style.overflow = previousOverflow || '';
+    opener?.focus({preventScroll: true});
+    window.scrollTo({top: pagePosition, behavior: 'instant'});
   }
-});
-let pageOverflow = '';
-let inertStates = [];
-let galleryOpener = null;
-document.addEventListener('click', event => {
-  const link = event.target.closest('a[data-viewer]');
-  if (link && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) galleryOpener = link;
-}, true);
-lightbox.on('beforeOpen', () => {
-  pageOverflow = document.body.style.overflow;
-  document.body.style.overflow = 'hidden';
-  inertStates = [...document.querySelectorAll('body > header, body > main, body > footer, body > .skip-link')]
-    .map(element => [element, element.inert]);
-  inertStates.forEach(([element]) => { element.inert = true; });
-  const duration = reducedMotion.matches ? 0 : 220;
-  lightbox.pswp.options.zoomAnimationDuration = duration;
-});
-lightbox.on('close', () => {
-  inertStates.forEach(([element, inert]) => { element.inert = inert; });
-});
-lightbox.on('destroy', () => {
-  document.body.style.overflow = pageOverflow;
-  inertStates.forEach(([element, inert]) => { element.inert = inert; });
-  const opener = galleryOpener;
-  requestAnimationFrame(() => opener?.focus({ preventScroll: true }));
-});
-lightbox.on('uiRegister', () => { lightbox.pswp.element.setAttribute('aria-label', 'Просмотр изображений'); });
-lightbox.init();
+  function closeStats(dialog) {
+    dialog.close();
+    restorePage();
+  }
+  document.querySelectorAll('[data-stat]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const dialog = document.getElementById(`stats-${link.dataset.stat}`);
+      if (!dialog?.showModal) return;
+      event.preventDefault();
+      opener = link;
+      pagePosition = scrollY;
+      // Finish any in-flight smooth scroll before locking the document.
+      window.scrollTo({top: pagePosition, behavior: 'instant'});
+      previousOverflow = document.documentElement.style.overflow;
+      locked = true;
+      document.documentElement.style.overflow = 'hidden';
+      dialog.showModal();
+      dialog.querySelector('.stats-scroll').scrollTop = 0;
+    });
+  });
+  document.querySelectorAll('.stats-dialog').forEach(dialog => {
+    dialog.querySelector('.stats-close').addEventListener('click', () => closeStats(dialog));
+    dialog.addEventListener('cancel', event => { event.preventDefault(); closeStats(dialog); });
+    let backdropDown = false;
+    dialog.addEventListener('pointerdown', event => { backdropDown = event.target === dialog; });
+    dialog.addEventListener('click', event => {
+      if (backdropDown && event.target === dialog) closeStats(dialog);
+      backdropDown = false;
+    });
+    dialog.addEventListener('close', restorePage);
+  });
+})();
