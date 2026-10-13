@@ -1,7 +1,16 @@
 /* Independent of the gallery module: motion never waits for a dependency. */
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .media-card, .story-heading, .visual-intro, .service-grid article, .about-copy, .about-photo, .steps li, .contact-copy > *, .contact-photo')];
+  const root = document.documentElement;
+  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .media-card, .story-heading, .visual-intro, .service-grid article, .about-copy, .about-photo, .steps li, .contact-photo')];
+  // Motifs replay their CSS entrance (styles.css) each time they come back into view.
+  const motifs = [...document.querySelectorAll('[data-motif]')];
+  // The head script starts the hero entrance; ending it only drops finished animations,
+  // so the class goes once they are done, whatever the tempo in styles.css.
+  const endIntro = () => root.classList.remove('hero-intro');
+  if (root.classList.contains('hero-intro')) {
+    Promise.all(document.querySelector('.hero').getAnimations({subtree: true}).map(a => a.finished)).then(endIntro, endIntro);
+  }
   const portrait = document.querySelector('.hero-portrait');
   const portraitImage = portrait?.querySelector('img');
   let portraitAnimation;
@@ -19,33 +28,42 @@
   reduced.addEventListener('change', () => {
     if (reduced.matches) {
       portraitAnimation?.cancel();
+      endIntro();
     }
   });
   let observer;
   function setupReveals() {
     observer?.disconnect();
     targets.forEach(el => el.classList.remove('reveal-wait', 'reveal-in'));
+    motifs.forEach(el => el.classList.remove('motif-wait', 'motif-play'));
     if (reduced.matches || !('IntersectionObserver' in window)) return;
     observer = new IntersectionObserver(entries => {
       for (const {target, isIntersecting, boundingClientRect: rect} of entries) {
+        const motif = motifs.includes(target);
+        const [wait, shown] = motif ? ['motif-wait', 'motif-play'] : ['reveal-wait', 'reveal-in'];
         if (isIntersecting) {
-          target.classList.add('reveal-in');
-          target.classList.remove('reveal-wait');
+          // A motif plays only from its prepared state, never over text already on screen.
+          if (motif && !target.classList.contains(wait)) continue;
+          target.classList.add(shown);
+          target.classList.remove(wait);
         } else if (rect.top > innerHeight + 80 || rect.bottom < -80) {
-          target.classList.remove('reveal-in');
-          target.classList.add('reveal-wait');
+          target.classList.remove(shown);
+          target.classList.add(wait);
         }
       }
     }, {rootMargin: '0px 0px -40px 0px', threshold: 0});
     // Do not hide content that the reader can already see on load or a deep link.
-    targets.forEach(el => {
+    [...targets, ...motifs].forEach(el => {
       const rect = el.getBoundingClientRect();
-      if (rect.top > innerHeight || rect.bottom < 0) el.classList.add('reveal-wait');
+      if (rect.top > innerHeight || rect.bottom < 0) el.classList.add(motifs.includes(el) ? 'motif-wait' : 'reveal-wait');
       observer.observe(el);
     });
   }
   document.addEventListener('focusin', ({target}) => {
     target.closest('.reveal-wait')?.classList.remove('reveal-wait');
+    // Keyboard focus must not land on a button that is still hidden or wiping in.
+    target.closest('[data-motif]')?.classList.remove('motif-wait', 'motif-play');
+    if (target.closest('.hero')) endIntro();
   });
   const scenes = [...document.querySelectorAll('[data-comparison="scroll"]')].map(el => ({
     el, sticky: el.querySelector('.comparison-sticky'),

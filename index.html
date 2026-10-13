@@ -5,6 +5,10 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#300904" name="theme-color"/>
+<script>
+  // The hero entrance must start before first paint; motion.js removes the class when it ends.
+  if (!location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('hero-intro');
+</script>
 <title>Лиза Понетайкина — SMM, стратегия и контент</title>
 <meta content="SMM-портфолио Лизы Понетайкиной. Стратегия, контент, Reels и продвижение брендов. Кейсы, сторис для кофейни и клиники, смена визуала." name="description"/>
 <link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
@@ -24,10 +28,10 @@
 <main id="main">
 <section aria-labelledby="hero-title" class="hero" id="top">
 <div class="hero-copy">
-<p class="eyebrow">Лиза Понетайкина / SMM-специалист</p>
-<h1 id="hero-title"><span>SMM</span><em>ПОРТФОЛИО</em></h1>
-<p class="hero-description">Продвижение брендов через стратегию и контент. Помогаю бизнесу привлекать клиентов через социальные сети.</p>
-<a class="button button-light" href="https://t.me/lizzza_aa" rel="noopener noreferrer" target="_blank">Написать в Telegram <span aria-hidden="true">↗</span></a>
+<p class="eyebrow"><span class="blur-in">Лиза</span> <span class="blur-in">Понетайкина</span> <span class="blur-in">/</span> <span class="blur-in">SMM-специалист</span></p>
+<h1 id="hero-title"><span class="rise-mask"><span class="sr-only">SMM</span><span aria-hidden="true" class="rise-chars"><span class="rise-char">S</span><span class="rise-char">M</span><span class="rise-char">M</span></span></span><em class="rise-mask"><span class="rise-line">ПОРТФОЛИО</span></em></h1>
+<p class="hero-description blur-in">Продвижение брендов через стратегию и контент. Помогаю бизнесу привлекать клиентов через социальные сети.</p>
+<a class="button button-light wipe-in" href="https://t.me/lizzza_aa" rel="noopener noreferrer" target="_blank"><span class="blur-in">Написать в Telegram</span> <span aria-hidden="true" class="blur-in">↗</span></a>
 </div>
 <div class="hero-portrait">
 <img alt="Лиза Понетайкина" fetchpriority="high" height="4062" sizes="(max-width: 700px) 48vw, 50vw" src="assets/work/portrait-800.webp" srcset="assets/work/portrait-480.webp 480w, assets/work/portrait-800.webp 800w, assets/work/portrait-1200.webp 1200w" width="2764"/>
@@ -106,7 +110,7 @@
 <ol class="steps"><li><span aria-hidden="true">01</span><h3>Знакомство</h3><p>Обсуждаем ваш проект и цели.</p></li><li><span aria-hidden="true">02</span><h3>Анализ</h3><p>Изучаю нишу, конкурентов и аудиторию.</p></li><li><span aria-hidden="true">03</span><h3>Стратегия</h3><p>Разрабатываю стратегию и контент-план.</p></li><li><span aria-hidden="true">04</span><h3>Реализация</h3><p>Создаю контент и настраиваю продвижение.</p></li><li><span aria-hidden="true">05</span><h3>Аналитика</h3><p>Анализирую результаты и определяю следующие шаги.</p></li></ol>
 </section>
 <section aria-labelledby="contact-title" class="contact" id="contact">
-<div class="contact-copy"><h2 id="contact-title">Давайте обсудим<br/>ваш <em>проект</em></h2><p>Расскажите о проекте, целях и о том, что хочется изменить. Обсудим, чем я могу помочь.</p><a class="button button-light" href="https://t.me/lizzza_aa" rel="noopener noreferrer" target="_blank">Написать в Telegram <span aria-hidden="true">↗</span></a><div class="contact-links"><a href="tel:+79277915718">+7 927 791-57-18</a><a href="https://www.instagram.com/lizzzaa.aaa/" rel="noopener noreferrer" target="_blank">Instagram <span aria-hidden="true">↗</span></a></div></div>
+<div class="contact-copy" data-motif=""><h2 id="contact-title"><span class="rise-mask"><span class="rise-line">Давайте обсудим</span></span> <span class="rise-mask"><span class="rise-line">ваш <em>проект</em></span></span></h2><p class="blur-in">Расскажите о проекте, целях и о том, что хочется изменить. Обсудим, чем я могу помочь.</p><a class="button button-light wipe-in" href="https://t.me/lizzza_aa" rel="noopener noreferrer" target="_blank"><span class="blur-in">Написать в Telegram</span> <span aria-hidden="true" class="blur-in">↗</span></a><div class="contact-links"><a class="blur-in" href="tel:+79277915718">+7 927 791-57-18</a><a class="blur-in" href="https://www.instagram.com/lizzzaa.aaa/" rel="noopener noreferrer" target="_blank">Instagram <span aria-hidden="true">↗</span></a></div></div>
 <div class="contact-photo"><img alt="Телефон в руках Лизы" height="1080" loading="lazy" src="assets/work/contact-restored.png" width="1460"/></div>
 </section>
 </main>
