@@ -14,23 +14,30 @@
   const portrait = document.querySelector('.hero-portrait');
   const portraitImage = portrait?.querySelector('img');
   let portraitAnimation;
-  if (portraitImage && !reduced.matches) {
-    // The portrait is visible by default, even when decoding is slow or fails.
+  // The head script hides the portrait (portrait-wait) so it never shows before its entrance;
+  // after 3 s it shows it anyway, and then the photo simply stays without an entrance.
+  const showPortrait = () => root.classList.remove('portrait-wait');
+  if (portraitImage && root.classList.contains('portrait-wait')) {
     portraitImage.decode().then(() => {
+      if (!root.classList.contains('portrait-wait')) return;
       if (!reduced.matches && scrollY === 0) {
         portraitAnimation = portrait.animate([
           { opacity: 0, transform: 'translate3d(24px,0,0)', clipPath: 'inset(0 0 0 22% round 18px)' },
           { opacity: 1, transform: 'translate3d(0,0,0)', clipPath: 'inset(0 0 0 0 round 18px)' }
         ], { duration: 1100, easing: 'cubic-bezier(.22,.7,.2,1)' });
       }
-    }).catch(() => {});
+      showPortrait();
+    }, showPortrait);
   }
   reduced.addEventListener('change', () => {
     if (reduced.matches) {
       portraitAnimation?.cancel();
+      showPortrait();
       endIntro();
     }
   });
+  // Smooth anchor scrolling only after load: a deep link (#contact) opens in place.
+  addEventListener('load', () => requestAnimationFrame(() => root.classList.add('smooth-scroll')), {once: true});
   let observer;
   function setupReveals() {
     observer?.disconnect();
@@ -59,6 +66,22 @@
       observer.observe(el);
     });
   }
+  // Safari restores the scroll position after the check above (reload at the bottom of the page),
+  // and a deep link may jump after it too. Such a first scroll without the reader's input shows
+  // what it lands on at once; scroll events run before the observer reports, so nothing replays.
+  let interacted = false;
+  let loadedAt = Infinity;
+  addEventListener('load', () => { loadedAt = performance.now(); }, {once: true});
+  ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(type =>
+    addEventListener(type, () => { interacted = true; }, {capture: true, passive: true, once: true}));
+  addEventListener('scroll', () => {
+    // Restoration happens while loading or right after load; later scrolls are the reader's.
+    if (interacted || performance.now() - loadedAt > 1000) return;
+    [...targets, ...motifs].forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < innerHeight && rect.bottom > 0) el.classList.remove('reveal-wait', 'motif-wait');
+    });
+  }, {passive: true, once: true});
   document.addEventListener('focusin', ({target}) => {
     target.closest('.reveal-wait')?.classList.remove('reveal-wait');
     // Keyboard focus must not land on a button that is still hidden or wiping in.

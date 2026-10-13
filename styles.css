@@ -15,7 +15,10 @@
   --ease-out: cubic-bezier(.23, 1, .32, 1);
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 90px; scrollbar-gutter: stable; }
+/* Anchors land right under the sticky header. Smooth scrolling starts after load (motion.js),
+   so a deep link opens in place instead of flying through the page. */
+html { scroll-padding-top: var(--story-top); scrollbar-gutter: stable; }
+@media (prefers-reduced-motion: no-preference) { html.smooth-scroll { scroll-behavior: smooth; } }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--body); }
 a { color: inherit; text-underline-offset: 5px; }
 button { font: inherit; }
@@ -34,8 +37,10 @@ nav { display: flex; gap: 28px; }
 nav a, .header-contact { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-size: 14px; }
 .header-contact span { margin-left: 20px; }
 .hero { display: grid; grid-template-columns: 50% 50%; background: var(--wine); color: var(--cream); }
-.hero-copy { padding: 80px 9% 64px; }
+/* Left 10% of the half-width column = the 5% page gutter of the header and sections. */
+.hero-copy { padding: 80px 9% 64px 10%; }
 .eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; }
+.hero .eyebrow .blur-in { white-space: nowrap; }
 .hero h1 { font-size: clamp(92px, 9vw, 128px); font-weight: 800; margin: 36px 0 28px; line-height: .9; }
 .hero h1 > span { display: block; }
 .hero h1 em { display: block; font-size: .43em; line-height: 1; letter-spacing: -.035em; font-style: normal; margin-top: 8px; }
@@ -46,6 +51,8 @@ nav a, .header-contact { display: inline-flex; align-items: center; min-height: 
 .hero .button { margin-top: 32px; }
 .hero-next { display: flex; align-items: center; justify-content: space-between; min-height: 44px; max-width: 300px; font-size: 14px; text-decoration: none; margin-top: 22px; color: var(--on-wine); }
 .hero-portrait { position: relative; overflow: hidden; background: var(--cream); }
+/* Hidden from the first paint until motion.js slides it in (the head script shows it after 3 s at the latest). */
+.portrait-wait .hero-portrait { opacity: 0; }
 .hero-portrait img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; object-position: center 40%;  }
 .section { padding: 88px 5%; max-width: 1600px; margin: auto; }
 .section-heading { margin-bottom: 48px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 60px; }
@@ -89,7 +96,8 @@ details p { padding: 8px 0 14px; color: var(--muted); }
 .about-photo img { width: 100%; height: 100%; object-fit: cover; }
 .about-copy h2 { margin-bottom: 26px; }
 .about-copy p { font-size: 16px; color: var(--muted); margin-top: 18px; max-width: 440px; }
-.text-link { display: inline-flex; align-items: center; min-height: 44px; gap: 20px; font-size: 14px; margin-top: 20px; }
+.text-link { display: inline-flex; align-items: center; min-height: 44px; gap: 20px; font-size: 14px; margin-top: 20px; text-decoration: none; }
+.text-link > span:first-child { text-decoration: underline; }
 .process { padding-top: 0; }
 .steps { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; margin: 0; padding: 0; }
 .steps li { border-top: 1px solid var(--line); padding-top: 20px; }
@@ -120,8 +128,9 @@ footer a { display: inline-flex; align-items: center; min-height: 44px; text-dec
   .hero h1 { font-size: 92px; }
   .hero .eyebrow { max-width: 270px; }
   .section { padding-top: 72px; padding-bottom: 72px; }
+  .process { padding-top: 0; }
   .case, .about { gap: 5%; }
-  .section-heading { gap: 28px; }
+  .section-heading { gap: 28px 5%; }
   .case h3 { font-size: 38px; }
   .metrics { gap: 14px; }
   .metrics strong { font-size: 36px; }
@@ -132,7 +141,6 @@ footer a { display: inline-flex; align-items: center; min-height: 44px; text-dec
   .contact-copy { padding-top: 56px; padding-bottom: 56px; }
 }
 @media (max-width: 700px) {
-  html { scroll-padding-top: 80px; }
   .header { height: 72px; padding: 0 22px; gap: 12px; }
   .wordmark { font-size: 32px; }
   nav { gap: 16px; }
@@ -151,7 +159,7 @@ footer a { display: inline-flex; align-items: center; min-height: 44px; text-dec
   .hero-next { grid-column: 1/-1; margin: -10px 0 0; max-width: none; }
   .section { padding: 56px 24px; }
   .section-heading { display: block; margin-bottom: 32px; }
-  .section-heading > p:last-child:not(.eyebrow) { margin-top: 20px; max-width: 400px; }
+  .section-heading > p:last-child:not(.eyebrow) { margin-top: 20px; max-width: 400px; justify-self: start; }
   h2 { font-size: 42px; }
   .case { display: flex; flex-direction: column; gap: 28px; align-items: stretch; }
   .case h3 { font-size: 36px; }
@@ -166,7 +174,7 @@ footer a { display: inline-flex; align-items: center; min-height: 44px; text-dec
   .service-grid .service-card, .service-grid .service-card:nth-child(even) { border-left: 0; padding: 26px 0 20px; }
   .service-grid h3 { font-size: 30px; }
   .service-grid p { margin-bottom: 16px; }
-  .about { display: flex; flex-direction: column-reverse; gap: 28px; }
+  .about { display: flex; flex-direction: column-reverse; gap: 28px; align-items: stretch; }
   .about-photo { width: 100%; aspect-ratio: 5/4; }
   .about-copy h2 { margin-bottom: 22px; }
   .process { padding-top: 0; }
@@ -193,7 +201,6 @@ footer a { display: inline-flex; align-items: center; min-height: 44px; text-dec
   .section, .contact-copy { padding-left: 20px; padding-right: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   .button { transition: none; }
   .button:active { transform: none; }
 }
@@ -210,7 +217,6 @@ footer a { display: inline-flex; align-items: center; min-height: 44px; text-dec
 [hidden] { display: none !important; }
 figure { margin: 0; }
 button, a { -webkit-tap-highlight-color: transparent; }
-section[id], article[id] { scroll-margin-top: var(--story-top); }
 .hero, .visual-section, .services { border-radius: var(--radius); }
 .hero { border-top-left-radius: 0; border-top-right-radius: 0; overflow: hidden; }
 .hero-portrait, .about-photo, .contact-photo { border-radius: var(--radius); overflow: hidden; }
@@ -219,7 +225,7 @@ section[id], article[id] { scroll-margin-top: var(--story-top); }
 .hero-portrait img { object-position: center 42%; }
 .case { align-items: start; }
 .case-copy { position: sticky; top: 112px; }
-.case-detail { font-size: 15px; color: var(--muted); margin-top: 20px; }
+.case-detail { font-size: 15px; color: var(--muted); margin-top: 20px; max-width: 490px; }
 .case-detail ul { padding-left: 20px; margin: 0; }
 .case-detail li + li { margin-top: 8px; }
 .case-evidence { display: grid; gap: 20px; min-width: 0; }
@@ -229,7 +235,8 @@ section[id], article[id] { scroll-margin-top: var(--story-top); }
 .case-reels h4 { margin: 0; font-size: 22px; line-height: 1.25; }
 .case-reels p { color: var(--muted); font-size: 13px; margin-top: 5px; }
 .case-reels img { width: 100%; height: auto; border-radius: 0; }
-.stat-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 20px; font-weight: 600; }
+/* On a narrow card «Подробнее» moves under the title instead of splitting it. */
+.stat-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; font-size: 20px; font-weight: 600; }
 .stat-open { font-size: 12px; font-weight: 400; border-bottom: 1px solid var(--muted); }
 .stat-period { display: block; margin-top: 8px; font-size: 13px; color: var(--muted); }
 .stat-total { display: block; margin: 28px 0 24px; }
@@ -255,9 +262,13 @@ section[id], article[id] { scroll-margin-top: var(--story-top); }
 .story-series-heading { margin: 48px 0 20px; }
 .story-series-heading h4 { font-size: 32px; line-height: 1.15; margin: 10px 0; letter-spacing: -.03em; }
 .story-series-heading > p:last-child { color: var(--muted); font-size: 16px; }
-.story-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; overflow: clip; }
+.story-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+/* Side entrances are cut at the screen edge, not at the edge of the story block.
+   clip (unlike hidden) keeps the sticky story cards working. */
+.stories { overflow-x: clip; }
 .story-side { position: static; --story-width: min(100%, 460px); }
-.visual-section { background: var(--wine); color: var(--cream); }
+/* Bottom space matches the top: 88 = 24 (scene) + 64. */
+.visual-section { background: var(--wine); color: var(--cream); padding-bottom: 64px; }
 .visual-intro { padding-bottom: 24px; }
 .visual-intro .eyebrow { margin-bottom: 16px; color: var(--on-wine); }
 .comparison-sticky { max-width: 1440px; margin: auto; padding: 24px 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 5%; align-items: center; }
@@ -271,9 +282,13 @@ section[id], article[id] { scroll-margin-top: var(--story-top); }
 .is-scroll-scene .compare-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 .is-scroll-scene .compare-layer img { width: min(100%, calc(var(--stage-height) * var(--feed-ratio))); max-width: none; max-height: 100%; height: auto; }
 .is-scroll-scene .compare-after { transform: translateX(110%); }
+/* Static display: the title stands next to the start of the first frame. */
+.comparison-scene:not(.is-scroll-scene) .comparison-sticky { align-items: start; }
 .service-grid { border: 0; gap: 16px; }
 .service-grid .service-card, .service-grid .service-card:nth-child(even) { display: block; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; margin: 0; transition: background 180ms; }
 .service-grid .service-card p { margin-bottom: 0; }
+/* The background transition above would otherwise replace the entrance transition. */
+.service-grid .service-card.reveal-in { transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out), background 180ms; }
 .service-card:active { background: #f0e6c8; }
 .steps li { border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
 .contact { border-radius: var(--radius) var(--radius) 0 0; }
@@ -288,6 +303,11 @@ section[id], article[id] { scroll-margin-top: var(--story-top); }
 .story-side.reveal-wait { transform: translate3d(64px,0,0); }
 .story-side:nth-child(even).reveal-wait { transform: translate3d(-64px,0,0); }
 .story-side.reveal-in { transition-duration: 1100ms; }
+/* Two columns: each frame enters from its own side, so they never cross in the middle. */
+@media (min-width: 701px) {
+  .story-side.reveal-wait { transform: translate3d(-64px,0,0); }
+  .story-side:nth-child(even).reveal-wait { transform: translate3d(64px,0,0); }
+}
 .reveal-wait:focus-within { opacity: 1; transform: none; }
 .stats-dialog { width: min(640px, calc(100% - 32px)); height: min(920px, calc(100dvh - 32px)); max-width: none; max-height: none; padding: 0; margin: auto; border: 0; border-radius: 20px; color: var(--ink); background: var(--paper); overflow: hidden; }
 .stats-dialog::backdrop { background: #190602b8; }
@@ -303,10 +323,18 @@ section[id], article[id] { scroll-margin-top: var(--story-top); }
 .evidence-piece p { font-size: 13px; color: var(--muted); margin: 0 4px 14px; }
 .evidence-piece img { width: 100%; height: auto; border-radius: 12px; background: white; }
 @media (hover: hover) { .service-card:hover, a.stat-sheet:hover { background: #f0e6c8; } .contact-links a:hover { background: var(--wine-line); } }
-@media (min-width: 701px) and (max-width: 1000px) { .steps { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (min-width: 701px) and (max-width: 1000px) {
+  .steps { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .steps li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .stat-sheet { padding: 20px; }
+  .stat-header { font-size: 18px; }
+  .result-metrics strong { font-size: clamp(30px, 4.6vw, 38px); }
+  .visual-section { padding-bottom: 48px; }
+}
 @media (max-width: 700px) {
   :root { --story-top: 64px; }
-  .header { height: 64px; padding-inline: max(18px, env(safe-area-inset-left)); }
+  /* One phone gutter, 22px, for header, sections, contact and footer. */
+  .header { height: 64px; padding-inline: max(22px, env(safe-area-inset-left)); }
   .header-contact span { margin-left: 4px; }
   .hero { padding: 28px 22px; grid-template-columns: .9fr 1.2fr; gap: 22px 14px; }
   .hero-portrait { min-height: 0; margin: 0; aspect-ratio: .69; }
@@ -315,7 +343,7 @@ section[id], article[id] { scroll-margin-top: var(--story-top); }
   .hero .eyebrow { font-size: 12px; }
   .section { padding: 48px 22px; }
   .case-copy { position: static; }
-  .case { gap: 24px; }
+  .case { gap: 24px; align-items: stretch; }
   .media-card { padding: 20px; }
   .case-reels { padding: 0; }
   .case-reels img { width: 100%; }
@@ -327,17 +355,32 @@ section[id], article[id] { scroll-margin-top: var(--story-top); }
   .story-case + .story-case { margin-top: 40px; padding-top: 32px; }
   .story-heading { margin-bottom: 16px; }
   .visual-intro { padding-bottom: 20px; }
+  .visual-section { padding-bottom: 36px; }
   .comparison-sticky { display: block; padding: 16px 8px 12px; }
   .comparison-sticky > h3 { font-size: 28px; margin: 0 14px 12px; }
   .is-scroll-scene .compare-stage { --stage-height: calc(100svh - var(--story-top) - 72px); }
   .service-grid .service-card, .service-grid .service-card:nth-child(even) { padding: 24px; }
   .steps { display: grid; grid-template-columns: 1fr; gap: 12px; }
   .steps li { padding: 20px; grid-template-columns: 36px 1fr; }
+  /* The number sits on the baseline of the step title. */
+  .steps span, .steps h3 { align-self: baseline; }
   .process { padding-top: 0; }
-  .contact-photo { margin: 0 16px 16px; height: 280px; }
+  .contact-copy { padding-inline: 22px; }
+  .contact-photo { margin: 0 22px 22px; height: 280px; }
   .contact { padding-bottom: 1px; }
+  footer { padding-inline: 22px; }
   .stats-dialog { width: 100%; height: 100dvh; margin: 0; border-radius: 0; }
   .stats-toolbar { padding-top: max(12px,env(safe-area-inset-top)); }
+}
+/* Low windows (a phone on its side): the case text scrolls normally instead of sticking
+   cut off; a compact header and a full-screen statistics window leave room for content. */
+@media (max-height: 620px) {
+  .case-copy { position: static; }
+}
+@media (max-height: 500px) {
+  :root { --story-top: 64px; }
+  .header { height: 64px; }
+  .stats-dialog { width: 100%; height: 100dvh; margin: 0; border-radius: 0; }
 }
 @media (prefers-reduced-motion: reduce), (max-height: 620px), print {
   .story-card { position: relative; top: auto; --story-width: min(100%,480px); }
@@ -347,7 +390,7 @@ section[id], article[id] { scroll-margin-top: var(--story-top); }
   .reveal-in { transition: none; }
 }
 @media print {
-  .reveal-wait { opacity: 1; transform: none; }
+  .reveal-wait, .portrait-wait .hero-portrait { opacity: 1; transform: none; }
   .comparison-scene.is-scroll-scene { height: auto; }
   .is-scroll-scene .comparison-sticky { position: static; height: auto; }
   .is-scroll-scene .compare-stage { height: auto; display: grid; overflow: visible; }

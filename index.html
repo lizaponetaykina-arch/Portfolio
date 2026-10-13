@@ -6,8 +6,12 @@
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#300904" name="theme-color"/>
 <script>
-  // The hero entrance must start before first paint; motion.js removes the class when it ends.
-  if (!location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('hero-intro');
+  // The hero entrance must start before first paint; motion.js removes the classes when it ends.
+  // portrait-wait hides the photo until motion.js slides it in; the photo shows after 3 s regardless.
+  if (!location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('hero-intro', 'portrait-wait');
+    setTimeout(() => document.documentElement.classList.remove('portrait-wait'), 3000);
+  }
 </script>
 <title>Лиза Понетайкина — SMM, стратегия и контент</title>
 <meta content="SMM-портфолио Лизы Понетайкиной. Стратегия, контент, Reels и продвижение брендов. Кейсы, сторис для кофейни и клиники, смена визуала." name="description"/>
@@ -29,7 +33,7 @@
 <div class="hero-copy">
 <p class="eyebrow"><span class="blur-in">Лиза</span> <span class="blur-in">Понетайкина</span> <span class="blur-in">/</span> <span class="blur-in">SMM-специалист</span></p>
 <h1 id="hero-title"><span class="rise-mask"><span class="sr-only">SMM</span><span aria-hidden="true" class="rise-chars"><span class="rise-char">S</span><span class="rise-char">M</span><span class="rise-char">M</span></span></span><em class="rise-mask"><span class="rise-line">ПОРТФОЛИО</span></em></h1>
-<p class="hero-description blur-in">Продвижение брендов через стратегию и контент. Помогаю бизнесу привлекать клиентов через социальные сети.</p>
+<p class="hero-description blur-in">Продвижение брендов через стратегию и&nbsp;контент. Помогаю бизнесу привлекать клиентов через социальные сети.</p>
 <a class="button button-light wipe-in" href="https://t.me/lizzza_aa" rel="noopener noreferrer" target="_blank"><span class="blur-in">Написать в Telegram</span> <span aria-hidden="true" class="blur-in">↗</span></a>
 </div>
 <div class="hero-portrait">
@@ -52,7 +56,7 @@
   </figure>
   <a class="stat-sheet media-card" data-stat="auto" href="assets/prepared/auto-views.webp" aria-haspopup="dialog">
     <span class="stat-header">Результаты <span class="stat-open">Подробнее</span></span>
-    <span class="result-metrics"><span><strong>1,06 млн</strong><small>просмотров<br/>4 янв — 7 фев</small></span><span><strong>+876</strong><small>подписчиков<br/>за месяц</small></span></span>
+    <span class="result-metrics"><span><strong>1,06 млн</strong><small>просмотров<br/>4&nbsp;янв — 7&nbsp;фев</small></span><span><strong>+876</strong><small>подписчиков<br/>за месяц</small></span></span>
   </a>
 </div>
 </article>
@@ -61,11 +65,11 @@
 <p class="eyebrow">Паб-ресторан / контент и коммуникация</p>
 <h3>Паб-ресторан</h3>
 <p>Добавили больше живого контента и юмора, усилили ощущение «своего места» и общение через сторис.</p>
-<div class="metrics"><div><strong>2,06 млн</strong><span>просмотров · 18 янв — 16 фев</span></div><div><strong>1,20 млн</strong><span>охваченных аккаунтов</span></div></div>
+<div class="metrics"><div><strong>2,06 млн</strong><span>просмотров · 18&nbsp;янв — 16&nbsp;фев</span></div><div><strong>1,20 млн</strong><span>охваченных аккаунтов</span></div></div>
 <p class="case-note">Показатели из предоставленного скриншота. Год в исходной статистике не указан.</p>
 <div class="case-detail"><p>Разработала концепцию и техническое задание: стиль, цветовую палитру и принципы подачи. Дизайнер реализовал оформление по моему ТЗ. Аккаунт стал целостным, визуал — поддерживать позиционирование бренда.</p></div>
 </div>
-<a class="stat-sheet media-card" data-stat="pub" href="assets/prepared/pub-views.webp" aria-haspopup="dialog"><span class="stat-header">Статистика аккаунта <span class="stat-open">Подробнее</span></span><span class="stat-period">18 января — 16 февраля</span><span class="stat-total"><span><small>Просмотры</small><strong>2 057 736</strong></span></span><span class="stat-row"><span>Охваченные аккаунты</span><b>1 202 124</b></span><span class="stat-footnote">Посмотреть статистику</span></a>
+<a class="stat-sheet media-card" data-stat="pub" href="assets/prepared/pub-views.webp" aria-haspopup="dialog"><span class="stat-header">Статистика аккаунта <span class="stat-open">Подробнее</span></span><span class="stat-period">18&nbsp;января — 16&nbsp;февраля</span><span class="stat-total"><span><small>Просмотры</small><strong>2 057 736</strong></span></span><span class="stat-row"><span>Охваченные аккаунты</span><b>1 202 124</b></span><span class="stat-footnote">Посмотреть статистику</span></a>
 </article>
 </section>
 <section aria-labelledby="stories-title" class="stories section" id="stories">
@@ -156,7 +160,7 @@
 </section>
 <section aria-labelledby="about-title" class="about section" id="about">
 <div class="about-photo"><img alt="Работа над контентом за ноутбуком" decoding="async" height="1054" loading="lazy" src="assets/work/about.webp" width="800"/></div>
-<div class="about-copy"><h2 id="about-title">Обо <em>мне</em></h2><p>Я — SMM-специалист с двухлетним опытом. Помогаю бизнесам привлекать клиентов через контент.</p><p>В основе моей работы — анализ и стратегия, качественный контент, продвижение и постоянная аналитика. Каждый шаг связан с задачами вашего проекта.</p><a class="text-link" href="https://t.me/lizzza_aa" rel="noopener noreferrer" target="_blank">Расскажите о своём бренде <span aria-hidden="true">↗</span></a></div>
+<div class="about-copy"><h2 id="about-title">Обо <em>мне</em></h2><p>Я — SMM-специалист с двухлетним опытом. Помогаю бизнесам привлекать клиентов через контент.</p><p>В основе моей работы — анализ и стратегия, качественный контент, продвижение и постоянная аналитика. Каждый шаг связан с задачами вашего проекта.</p><a class="text-link" href="https://t.me/lizzza_aa" rel="noopener noreferrer" target="_blank"><span>Расскажите о своём бренде</span> <span aria-hidden="true">↗</span></a></div>
 </section>
 <section aria-labelledby="process-title" class="process section">
 <div class="section-heading"><h2 id="process-title">Как мы <em>работаем</em></h2></div>
@@ -174,14 +178,14 @@
 <dialog class="stats-dialog" id="stats-auto" aria-labelledby="stats-auto-title">
   <div class="stats-shell"><header class="stats-toolbar"><div><p>Статистика</p><h2 id="stats-auto-title">Автосервис</h2></div><button type="button" class="stats-close" aria-label="Закрыть статистику"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></header>
   <div class="stats-scroll">
-    <section class="evidence-piece"><h3>Просмотры</h3><p>4 января — 7 февраля</p><img src="assets/prepared/auto-views.webp" width="900" height="1820" loading="lazy" alt="Исходная статистика: просмотры, Автосервис"/></section>
+    <section class="evidence-piece"><h3>Просмотры</h3><p>4&nbsp;января — 7&nbsp;февраля</p><img src="assets/prepared/auto-views.webp" width="900" height="1820" loading="lazy" alt="Исходная статистика: просмотры, Автосервис"/></section>
     <section class="evidence-piece"><h3>Прирост подписчиков</h3><p>За месяц · 925 подписок − 49 отписок</p><img src="assets/prepared/auto-followers.webp" width="1940" height="696" loading="lazy" alt="Исходная статистика: прирост подписчиков, Автосервис"/></section>
   </div></div>
 </dialog>
 <dialog class="stats-dialog" id="stats-pub" aria-labelledby="stats-pub-title">
   <div class="stats-shell"><header class="stats-toolbar"><div><p>Статистика</p><h2 id="stats-pub-title">Паб-ресторан</h2></div><button type="button" class="stats-close" aria-label="Закрыть статистику"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></header>
   <div class="stats-scroll">
-    <section class="evidence-piece"><h3>Просмотры и охват</h3><p>18 января — 16 февраля</p><img src="assets/prepared/pub-views.webp" width="980" height="2028" loading="lazy" alt="Исходная статистика: просмотры и охват, Паб-ресторан"/></section>
+    <section class="evidence-piece"><h3>Просмотры и охват</h3><p>18&nbsp;января — 16&nbsp;февраля</p><img src="assets/prepared/pub-views.webp" width="980" height="2028" loading="lazy" alt="Исходная статистика: просмотры и охват, Паб-ресторан"/></section>
   </div></div>
 </dialog>
 </body>
