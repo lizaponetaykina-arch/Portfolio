@@ -22,13 +22,23 @@ const lightbox = new PhotoSwipeLightbox({
 lightbox.addFilter('itemData', data => {
   data.alt = data.element?.dataset.caption || data.alt || '';
   data.framePosition = data.element?.dataset.framePosition;
+  data.frameY = data.element?.dataset.frameY;
+  data.frameZoom = data.element?.dataset.frameZoom;
   return data;
 });
 lightbox.on('contentLoadImage', ({content}) => {
   const position = content.data.framePosition;
   if (position && content.element) {
+    const y = Number(content.data.frameY || 50);
+    const x = Number(position);
+    const zoom = Number(content.data.frameZoom || 1);
+    const inset = 1 - 1 / zoom;
     content.element.style.objectFit = 'cover';
-    content.element.style.objectPosition = `${position}% center`;
+    content.element.style.objectPosition = `${x}% ${y}%`;
+    content.element.style.transformOrigin = `${x}% ${y}%`;
+    content.element.style.transform = `scale(${zoom})`;
+    // Clip before scaling so the visible crop keeps PhotoSwipe's fitted bounds.
+    content.element.style.clipPath = `inset(${inset * y}% ${inset * (100 - x)}% ${inset * (100 - y)}% ${inset * x}%)`;
   }
 });
 let pageOverflow = '';

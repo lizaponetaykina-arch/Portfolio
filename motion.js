@@ -1,38 +1,24 @@
 /* Independent of the gallery module: motion never waits for a dependency. */
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .case-image, .story-heading, .visual-intro, .service-grid article, .about-copy, .about-photo, .steps li, .contact-copy > *, .contact-photo')];
+  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .media-card, .story-heading, .visual-intro, .service-grid article, .about-copy, .about-photo, .steps li, .contact-copy > *, .contact-photo')];
   const portrait = document.querySelector('.hero-portrait');
   const portraitImage = portrait?.querySelector('img');
   let portraitAnimation;
   if (portraitImage && !reduced.matches) {
-    portrait.classList.add('portrait-pending');
-    // Wait for both the first scroll and decoded pixels before the entrance.
-    const firstScroll = new Promise(resolve => {
-      if (scrollY > 0) { resolve(); return; }
-      const start = () => {
-        if (scrollY <= 0 && !reduced.matches) return;
-        removeEventListener('scroll', start);
-        reduced.removeEventListener('change', start);
-        resolve();
-      };
-      addEventListener('scroll', start, {passive: true});
-      reduced.addEventListener('change', start);
-    });
-    Promise.all([portraitImage.decode().catch(() => {}), firstScroll]).then(() => {
-      if (!reduced.matches) {
+    // The portrait is visible by default, even when decoding is slow or fails.
+    portraitImage.decode().then(() => {
+      if (!reduced.matches && scrollY === 0) {
         portraitAnimation = portrait.animate([
-          { opacity: 0, transform: 'translateY(12px)' },
+          { opacity: .65, transform: 'translateY(6px)' },
           { opacity: 1, transform: 'translateY(0)' }
-        ], { duration: 1600, easing: 'cubic-bezier(.4,0,.2,1)' });
+        ], { duration: 550, easing: 'cubic-bezier(.16,1,.3,1)' });
       }
-      portrait.classList.remove('portrait-pending');
-    });
+    }).catch(() => {});
   }
   reduced.addEventListener('change', () => {
     if (reduced.matches) {
       portraitAnimation?.cancel();
-      portrait?.classList.remove('portrait-pending');
     }
   });
   let observer;
