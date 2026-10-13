@@ -1,0 +1,135 @@
+{
+ "note": "Neural upscale (Real-ESRGAN ncnn-vulkan 20220424, x4) of the exact source crops, then Lanczos3 downscale to the shown size. AI output can alter small text and digits: compare with the source before publishing. Sources unchanged.",
+ "files": {
+  "vr-before.webp": {
+   "source": "assets/originals/IMG_6335.JPG",
+   "crop": {
+    "left": 287,
+    "top": 140,
+    "width": 464,
+    "height": 824
+   },
+   "model": "realesrgan-x4plus",
+   "previous": "assets/prepared/vr-before.webp",
+   "width": 1200,
+   "height": 2131
+  },
+  "vr-after.webp": {
+   "source": "assets/originals/IMG_6335.JPG",
+   "crop": {
+    "left": 1174,
+    "top": 128,
+    "width": 464,
+    "height": 824
+   },
+   "model": "realesrgan-x4plus",
+   "previous": "assets/prepared/vr-after.webp",
+   "width": 1200,
+   "height": 2131
+  },
+  "auto-before.webp": {
+   "source": "assets/originals/IMG_6336.JPG",
+   "crop": {
+    "left": 295,
+    "top": 198,
+    "width": 444,
+    "height": 733
+   },
+   "model": "realesrgan-x4plus",
+   "previous": "assets/prepared/auto-before.webp",
+   "width": 1200,
+   "height": 1981
+  },
+  "auto-after.webp": {
+   "source": "assets/originals/IMG_6336.JPG",
+   "crop": {
+    "left": 1178,
+    "top": 198,
+    "width": 444,
+    "height": 733
+   },
+   "model": "realesrgan-x4plus",
+   "previous": "assets/prepared/auto-after.webp",
+   "width": 1200,
+   "height": 1981
+  },
+  "restaurant-before.webp": {
+   "source": "assets/originals/IMG_6337.JPG",
+   "crop": {
+    "left": 273,
+    "top": 211,
+    "width": 450,
+    "height": 817
+   },
+   "model": "realesrgan-x4plus",
+   "previous": "assets/prepared/restaurant-before.webp",
+   "width": 1200,
+   "height": 2179
+  },
+  "restaurant-after.webp": {
+   "source": "assets/originals/IMG_6337.JPG",
+   "crop": {
+    "left": 1176,
+    "top": 211,
+    "width": 450,
+    "height": 817
+   },
+   "model": "realesrgan-x4plus",
+   "previous": "assets/prepared/restaurant-after.webp",
+   "width": 1200,
+   "height": 2179
+  },
+  "auto-views.webp": {
+   "source": "assets/auto-stats.png",
+   "crop": {
+    "left": 1725,
+    "top": 292,
+    "width": 450,
+    "height": 910
+   },
+   "model": "realesr-animevideov3-x4",
+   "previous": "assets/prepared/auto-views.webp",
+   "width": 1200,
+   "height": 2427
+  },
+  "pub-views.webp": {
+   "source": "assets/pub-stats.png",
+   "crop": {
+    "left": 1764,
+    "top": 194,
+    "width": 490,
+    "height": 1014
+   },
+   "model": "realesr-animevideov3-x4",
+   "previous": "assets/prepared/pub-views.webp",
+   "width": 1200,
+   "height": 2483
+  },
+  "auto-followers.webp": {
+   "source": "assets/auto-result.png",
+   "crop": {
+    "left": 1460,
+    "top": 850,
+    "width": 970,
+    "height": 348
+   },
+   "model": "realesr-animevideov3-x4",
+   "previous": "assets/prepared/auto-followers.webp",
+   "width": 1300,
+   "height": 466
+  },
+  "about.webp": {
+   "source": "assets/work/about.webp",
+   "model": "realesrgan-x4plus",
+   "previous": "assets/work/about.webp",
+   "width": 1240,
+   "height": 1634
+  },
+  "contact.webp": {
+   "source": "assets/work/contact-restored.png",
+   "method": "full-size re-encode, no new AI",
+   "width": 1460,
+   "height": 1078
+  }
+ }
+}
