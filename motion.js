@@ -1,8 +1,8 @@
-/* Independent of the gallery module: motion never waits for a dependency. */
+/* Native page scroll; readable defaults when motion is unavailable. */
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const root = document.documentElement;
-  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .media-card, .story-heading, .visual-intro, .service-grid article, .about-copy, .about-photo, .steps li, .contact-photo')];
+  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .media-card, .story-heading, .visual-intro, .service-card, .story-side, .story-series-heading, .about-copy, .about-photo, .steps li, .contact-photo')];
   // Motifs replay their CSS entrance (styles.css) each time they come back into view.
   const motifs = [...document.querySelectorAll('[data-motif]')];
   // The head script starts the hero entrance; ending it only drops finished animations,
@@ -19,9 +19,9 @@
     portraitImage.decode().then(() => {
       if (!reduced.matches && scrollY === 0) {
         portraitAnimation = portrait.animate([
-          { opacity: .65, transform: 'translateY(6px)' },
-          { opacity: 1, transform: 'translateY(0)' }
-        ], { duration: 550, easing: 'cubic-bezier(.16,1,.3,1)' });
+          { opacity: 0, transform: 'translate3d(24px,0,0)', clipPath: 'inset(0 0 0 22% round 18px)' },
+          { opacity: 1, transform: 'translate3d(0,0,0)', clipPath: 'inset(0 0 0 0 round 18px)' }
+        ], { duration: 1100, easing: 'cubic-bezier(.22,.7,.2,1)' });
       }
     }).catch(() => {});
   }
@@ -79,7 +79,7 @@
       const progress = linear * linear * (3 - 2 * linear);
       scene.before.style.transform = `translate3d(${-110 * progress}%,0,0)`;
       scene.after.style.transform = `translate3d(${110 * (1 - progress)}%,0,0)`;
-      // Offstage frames stay in the lightbox collection but not in the tab order.
+      // Expose only the frame currently being read.
       [scene.before, scene.after].forEach((layer, index) => {
         const hidden = index === 0 ? progress >= .5 : progress < .5;
         layer.inert = hidden;
