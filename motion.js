@@ -64,9 +64,9 @@
       }
     };
     const observer = new IntersectionObserver(reveal, {rootMargin: '0px 0px 40px 0px', threshold: 0});
-    // The tall side-entering story cards (the COVID pair) start once their top passes 65% of the
-    // screen, about 40% of the card in view; from the screen edge the 1.1 s entrance was over unseen.
-    const lateObserver = new IntersectionObserver(reveal, {rootMargin: '0px 0px -35% 0px', threshold: 0});
+    // The tall side-entering story cards (the COVID pair) start once their top reaches the middle of
+    // the screen, so the 1.1 s entrance plays while the card is in view, not before it.
+    const lateObserver = new IntersectionObserver(reveal, {rootMargin: '0px 0px -50% 0px', threshold: 0});
     observers = [observer, lateObserver];
     // Visible and previously read content never disappears on return.
     [...targets, ...motifs].forEach(el => {
@@ -107,10 +107,13 @@
     el, sticky: el.querySelector('.comparison-sticky'),
     before: el.querySelector('.compare-before'), after: el.querySelector('.compare-after')
   }));
+  // The back-to-top button appears once the first screen has been scrolled past.
+  const toTop = document.querySelector('.to-top');
   let scheduled = false;
   function render() {
     scheduled = false;
     const y = scrollY;
+    toTop?.classList.toggle('is-hidden', y < innerHeight * .8);
     scenes.forEach(scene => {
       if (!scene.enabled) return;
       const linear = Math.max(0, Math.min(1, ((y - scene.start) / scene.distance - .1) / .8));
