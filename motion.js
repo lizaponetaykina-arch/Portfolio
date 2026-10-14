@@ -112,6 +112,8 @@
       const progress = linear * linear * (3 - 2 * linear);
       scene.before.style.transform = `translate3d(${-110 * progress}%,0,0)`;
       scene.after.style.transform = `translate3d(${110 * (1 - progress)}%,0,0)`;
+      // A short edge fade avoids a hard cut, without masking the resting phone.
+      scene.el.style.setProperty('--edge-strength', Math.min(1, progress * 8, (1 - progress) * 8));
       // Expose only the frame currently being read.
       [scene.before, scene.after].forEach((layer, index) => {
         const hidden = index === 0 ? progress >= .5 : progress < .5;
@@ -146,6 +148,7 @@
     scenes.forEach(scene => {
       scene.start = scene.el.getBoundingClientRect().top + scrollY - header;
       scene.distance = Math.max(1, scene.el.offsetHeight - scene.sticky.offsetHeight);
+      if (!scene.enabled) scene.el.style.removeProperty('--edge-strength');
       if (!scene.enabled) [scene.before, scene.after].forEach(layer => {
         layer.style.removeProperty('transform'); layer.inert = false; layer.removeAttribute('aria-hidden');
       });

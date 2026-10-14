@@ -31,10 +31,11 @@ em { font-family: var(--serif); font-weight: 400; }
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 5px; }
 .skip-link { position: fixed; top: -100px; left: 16px; z-index: 100; padding: 12px; background: var(--cream); }
 .skip-link:focus { top: 12px; }
-.header { height: 80px; padding: 0 var(--page-gutter); display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--wine); color: var(--cream); border-bottom: 1px solid var(--wine-line); position: sticky; top: 0; z-index: 20; }
-.wordmark { display: flex; align-items: center; min-height: 44px; font: italic 38px var(--serif); text-decoration: none; letter-spacing: -3px; }
+.header { height: 80px; padding: 0 var(--page-gutter); display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; background: var(--wine); color: var(--cream); border-bottom: 1px solid var(--wine-line); position: sticky; top: 0; z-index: 20; }
+.wordmark { justify-self: start; display: flex; align-items: center; min-height: 44px; font: italic 38px var(--serif); text-decoration: none; letter-spacing: -3px; }
 .wordmark span { color: var(--accent); }
-nav { display: flex; gap: 28px; }
+nav { display: flex; gap: 28px; justify-self: center; }
+.header-contact { justify-self: end; white-space: nowrap; }
 nav a, .header-contact { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-size: 14px; }
 .header-contact span { margin-left: 20px; }
 .hero { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 5%; padding-inline: var(--page-gutter); background: var(--wine); color: var(--cream); }
@@ -109,7 +110,7 @@ details p { padding: 8px 0 14px; color: var(--muted); }
 .contact-copy { padding: 72px 9% 72px 0; }
 .contact h2 { font-size: clamp(44px, 4.5vw, 64px); margin-bottom: 28px; }
 .contact-copy > p { max-width: 380px; font-size: 16px; color: var(--on-wine); }
-.contact .button { margin-top: 30px; }
+.contact .button { margin-top: 24px; }
 .contact-links { display: flex; flex-wrap: wrap; gap: 0 32px; margin-top: 20px; font-size: 14px; }
 .contact-links a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; gap: 8px; }
 .contact-photo { position: relative; overflow: hidden; }
@@ -246,7 +247,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .result-metrics { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; margin-top: 24px; }
 .result-metrics strong { display: block; font: 38px/1.1 var(--serif); letter-spacing: -.04em; white-space: nowrap; }
 .result-metrics small { display: block; margin-top: 10px; font-size: 13px; color: var(--muted); line-height: 1.5; }
-.story-case + .story-case { margin-top: 56px; border-top: 1px solid var(--line); padding-top: 40px; }
+.story-case + .story-case { margin-top: 40px; border-top: 1px solid var(--line); padding-top: 40px; }
 .story-heading { margin-bottom: 20px; }
 .story-heading h3 { font-size: 40px; margin-top: 10px; }
 .story-description { color: var(--muted); margin-top: 12px; font-size: 16px; }
@@ -258,7 +259,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .story-count { font-size: 12px; white-space: nowrap; color: var(--muted); }
 .story-topic { margin-left: auto; font-size: 12px; color: var(--muted); text-align: right; }
 .story-card img { width: var(--story-width); height: auto; margin: auto; border-radius: 14px; }
-.story-series-heading { margin: 48px 0 20px; }
+.story-series-heading { margin: 40px 0 20px; }
 .story-series-heading h4 { font-size: 32px; line-height: 1.15; margin: 10px 0; letter-spacing: -.03em; }
 .story-series-heading > p:last-child { color: var(--muted); font-size: 16px; }
 .story-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -283,6 +284,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .is-scroll-scene .compare-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 .is-scroll-scene .phone-frame { width: min(100%, calc(var(--stage-height) * var(--phone-ratio))); max-width: none; flex-shrink: 0; }
 .is-scroll-scene .compare-after { transform: translateX(110%); }
+/* Soften the clipping edge only during motion; resting phones keep every edge visible. */
+.is-scroll-scene .compare-stage {
+  --edge-fade: calc(40px * var(--edge-strength, 0));
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--edge-fade), #000 calc(100% - var(--edge-fade)), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 var(--edge-fade), #000 calc(100% - var(--edge-fade)), transparent);
+}
+
 /* Static display: the title stands next to the start of the first frame. */
 .comparison-scene:not(.is-scroll-scene) .comparison-sticky { align-items: start; }
 .service-grid { border: 0; gap: 16px; }
@@ -357,7 +365,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .case + .case { margin-top: 40px; padding-top: 40px; }
   .story-track, .story-pair { margin-inline: 0; }
   .story-pair { grid-template-columns: 1fr; gap: 20px; }
-  .story-case + .story-case { margin-top: 40px; padding-top: 32px; }
+  .story-case + .story-case { margin-top: 32px; padding-top: 32px; }
+  .story-series-heading { margin-top: 32px; }
   .story-heading { margin-bottom: 16px; }
   .visual-intro { padding-bottom: 20px; }
   .visual-section { padding-bottom: 36px; }
@@ -382,7 +391,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .story-pair { grid-template-columns: 1fr; }
   .comparison-sticky { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 16px var(--page-gutter) 12px; }
   .comparison-sticky > h3 { font-size: 28px; margin: 0 0 12px; }
-  .is-scroll-scene .compare-stage { --stage-height: calc(var(--reading-height, 100svh) - var(--story-top) - 72px); flex-shrink: 0; }
+  .is-scroll-scene .compare-stage { --stage-height: calc(var(--reading-height, 100svh) - var(--story-top) - 72px); --edge-fade: calc(24px * var(--edge-strength, 0)); flex-shrink: 0; }
   .is-scroll-scene .compare-layer { align-items: flex-start; }
 }
 /* Low windows (a phone on its side): the case text scrolls normally instead of sticking
@@ -406,7 +415,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .reveal-wait, .portrait-wait .hero-portrait { opacity: 1; transform: none; }
   .comparison-scene.is-scroll-scene { height: auto; }
   .is-scroll-scene .comparison-sticky { position: static; height: auto; }
-  .is-scroll-scene .compare-stage { height: auto; display: grid; overflow: visible; }
+  .is-scroll-scene .compare-stage { height: auto; display: grid; overflow: visible; -webkit-mask-image: none; mask-image: none; }
   .is-scroll-scene .compare-layer { position: static; transform: none !important; }
 }
 
