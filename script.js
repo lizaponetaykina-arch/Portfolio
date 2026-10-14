@@ -27,11 +27,17 @@
       previousOverflow = document.documentElement.style.overflow;
       locked = true;
       document.documentElement.style.overflow = 'hidden';
+      dialog.toggleAttribute('data-pointer-open', event.detail > 0);
       dialog.showModal();
-      dialog.querySelector('.stats-scroll').scrollTop = 0;
+      const content = dialog.querySelector('.stats-scroll');
+      content.scrollTop = 0;
+      content.focus({preventScroll: true});
     });
   });
   document.querySelectorAll('.stats-dialog').forEach(dialog => {
+    // Safari can report :focus-visible on programmatic focus after a tap.
+    // Restore the content outline as soon as keyboard navigation begins.
+    dialog.addEventListener('keydown', () => dialog.removeAttribute('data-pointer-open'));
     dialog.querySelector('.stats-close').addEventListener('click', () => closeStats(dialog));
     dialog.addEventListener('cancel', event => { event.preventDefault(); closeStats(dialog); });
     let backdropDown = false;

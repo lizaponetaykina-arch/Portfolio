@@ -2,8 +2,8 @@
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const root = document.documentElement;
-  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .media-card, .story-heading, .visual-intro, .service-card, .story-side, .story-series-heading, .about-copy, .about-photo, .steps li, .contact-photo')];
-  // Motifs replay their CSS entrance (styles.css) each time they come back into view.
+  const targets = [...document.querySelectorAll('.section-heading, .case-copy > *, .media-card, .story-heading, .visual-intro, .service-card, .story-side, .story-series-heading, .about-copy, .about-photo, .steps li, .contact-photo, .contact-copy > p, .contact-copy > .button, .contact-links')];
+  // Entrance motifs play once, when their own content enters the reading area.
   const motifs = [...document.querySelectorAll('[data-motif]')];
   // The head script starts the hero entrance; ending it only drops finished animations,
   // so the class goes once they are done, whatever the tempo in styles.css.
@@ -39,30 +39,38 @@
   // Smooth anchor scrolling only after load: a deep link (#contact) opens in place.
   addEventListener('load', () => requestAnimationFrame(() => root.classList.add('smooth-scroll')), {once: true});
   let observer;
+  const seen = new WeakSet();
+  function showImmediately(el) {
+    seen.add(el);
+    el.classList.remove('reveal-wait', 'motif-wait', 'motif-play');
+    observer?.unobserve(el);
+  }
   function setupReveals() {
     observer?.disconnect();
     targets.forEach(el => el.classList.remove('reveal-wait', 'reveal-in'));
     motifs.forEach(el => el.classList.remove('motif-wait', 'motif-play'));
     if (reduced.matches || !('IntersectionObserver' in window)) return;
     observer = new IntersectionObserver(entries => {
-      for (const {target, isIntersecting, boundingClientRect: rect} of entries) {
+      for (const {target, isIntersecting} of entries) {
+        if (!isIntersecting) continue;
         const motif = motifs.includes(target);
         const [wait, shown] = motif ? ['motif-wait', 'motif-play'] : ['reveal-wait', 'reveal-in'];
-        if (isIntersecting) {
-          // A motif plays only from its prepared state, never over text already on screen.
-          if (motif && !target.classList.contains(wait)) continue;
+        if (target.classList.contains(wait)) {
           target.classList.add(shown);
           target.classList.remove(wait);
-        } else if (rect.top > innerHeight + 80 || rect.bottom < -80) {
-          target.classList.remove(shown);
-          target.classList.add(wait);
         }
+        seen.add(target);
+        observer.unobserve(target);
       }
-    }, {rootMargin: '0px 0px -40px 0px', threshold: 0});
-    // Do not hide content that the reader can already see on load or a deep link.
+    }, {rootMargin: '0px 0px 40px 0px', threshold: 0});
+    // Visible and previously read content never disappears on return.
     [...targets, ...motifs].forEach(el => {
       const rect = el.getBoundingClientRect();
-      if (rect.top > innerHeight || rect.bottom < 0) el.classList.add(motifs.includes(el) ? 'motif-wait' : 'reveal-wait');
+      if (seen.has(el) || (rect.top < innerHeight && rect.bottom > 0)) {
+        seen.add(el);
+        return;
+      }
+      el.classList.add(motifs.includes(el) ? 'motif-wait' : 'reveal-wait');
       observer.observe(el);
     });
   }
@@ -79,13 +87,15 @@
     if (interacted || performance.now() - loadedAt > 1000) return;
     [...targets, ...motifs].forEach(el => {
       const rect = el.getBoundingClientRect();
-      if (rect.top < innerHeight && rect.bottom > 0) el.classList.remove('reveal-wait', 'motif-wait');
+      if (rect.top < innerHeight && rect.bottom > 0) showImmediately(el);
     });
   }, {passive: true, once: true});
   document.addEventListener('focusin', ({target}) => {
-    target.closest('.reveal-wait')?.classList.remove('reveal-wait');
+    const reveal = target.closest('.reveal-wait');
+    if (reveal) showImmediately(reveal);
     // Keyboard focus must not land on a button that is still hidden or wiping in.
-    target.closest('[data-motif]')?.classList.remove('motif-wait', 'motif-play');
+    const motif = target.closest('[data-motif]');
+    if (motif) showImmediately(motif);
     if (target.closest('.hero')) endIntro();
   });
   const scenes = [...document.querySelectorAll('[data-comparison="scroll"]')].map(el => ({
@@ -110,10 +120,27 @@
       });
     });
   }
+  // Freeze reading geometry through mobile browser-toolbar/keyboard height changes.
+  // A width change (rotation or split view) starts a new layout; desktop remains resizable.
+  const viewportProbe = document.createElement('div');
+  viewportProbe.className = 'viewport-probe';
+  viewportProbe.setAttribute('aria-hidden', 'true');
+  document.body.append(viewportProbe);
+  const coarsePointer = matchMedia('(pointer: coarse)');
+  let readingWidth;
+  let readingHeight;
   function measure() {
+    const width = document.documentElement.clientWidth;
+    if (readingWidth !== width || !coarsePointer.matches) {
+      readingWidth = width;
+      readingHeight = viewportProbe.getBoundingClientRect().height;
+      root.style.setProperty('--reading-height', `${readingHeight}px`);
+    }
+    const scrollLayout = !reduced.matches && readingHeight > 620;
+    root.classList.toggle('scroll-layout', scrollLayout);
     const header = document.querySelector('.header').offsetHeight;
     scenes.forEach(scene => {
-      scene.enabled = !reduced.matches && innerHeight > 620;
+      scene.enabled = scrollLayout;
       scene.el.classList.toggle('is-scroll-scene', scene.enabled);
     });
     scenes.forEach(scene => {
