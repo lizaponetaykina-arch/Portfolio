@@ -38,19 +38,19 @@
   });
   // Smooth anchor scrolling only after load: a deep link (#contact) opens in place.
   addEventListener('load', () => requestAnimationFrame(() => root.classList.add('smooth-scroll')), {once: true});
-  let observer;
+  let observers = [];
   const seen = new WeakSet();
   function showImmediately(el) {
     seen.add(el);
     el.classList.remove('reveal-wait', 'motif-wait', 'motif-play');
-    observer?.unobserve(el);
+    observers.forEach(o => o.unobserve(el));
   }
   function setupReveals() {
-    observer?.disconnect();
+    observers.forEach(o => o.disconnect());
     targets.forEach(el => el.classList.remove('reveal-wait', 'reveal-in'));
     motifs.forEach(el => el.classList.remove('motif-wait', 'motif-play'));
     if (reduced.matches || !('IntersectionObserver' in window)) return;
-    observer = new IntersectionObserver(entries => {
+    const reveal = (entries, observer) => {
       for (const {target, isIntersecting} of entries) {
         if (!isIntersecting) continue;
         const motif = motifs.includes(target);
@@ -62,7 +62,12 @@
         seen.add(target);
         observer.unobserve(target);
       }
-    }, {rootMargin: '0px 0px 40px 0px', threshold: 0});
+    };
+    const observer = new IntersectionObserver(reveal, {rootMargin: '0px 0px 40px 0px', threshold: 0});
+    // The tall side-entering story cards (the COVID pair) start once their top passes 65% of the
+    // screen, about 40% of the card in view; from the screen edge the 1.1 s entrance was over unseen.
+    const lateObserver = new IntersectionObserver(reveal, {rootMargin: '0px 0px -35% 0px', threshold: 0});
+    observers = [observer, lateObserver];
     // Visible and previously read content never disappears on return.
     [...targets, ...motifs].forEach(el => {
       const rect = el.getBoundingClientRect();
@@ -71,7 +76,7 @@
         return;
       }
       el.classList.add(motifs.includes(el) ? 'motif-wait' : 'reveal-wait');
-      observer.observe(el);
+      (el.classList.contains('story-side') ? lateObserver : observer).observe(el);
     });
   }
   // Safari restores the scroll position after the check above (reload at the bottom of the page),
@@ -112,6 +117,7 @@
       const progress = linear * linear * (3 - 2 * linear);
       scene.before.style.transform = `translate3d(${-110 * progress}%,0,0)`;
       scene.after.style.transform = `translate3d(${110 * (1 - progress)}%,0,0)`;
+      scene.el.classList.toggle('is-after', progress >= .5);
       // A short edge fade avoids a hard cut, without masking the resting phone.
       scene.el.style.setProperty('--edge-strength', Math.min(1, progress * 8, (1 - progress) * 8));
       // Expose only the frame currently being read.
@@ -148,7 +154,7 @@
     scenes.forEach(scene => {
       scene.start = scene.el.getBoundingClientRect().top + scrollY - header;
       scene.distance = Math.max(1, scene.el.offsetHeight - scene.sticky.offsetHeight);
-      if (!scene.enabled) scene.el.style.removeProperty('--edge-strength');
+      if (!scene.enabled) { scene.el.style.removeProperty('--edge-strength'); scene.el.classList.remove('is-after'); }
       if (!scene.enabled) [scene.before, scene.after].forEach(layer => {
         layer.style.removeProperty('transform'); layer.inert = false; layer.removeAttribute('aria-hidden');
       });

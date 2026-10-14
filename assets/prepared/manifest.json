@@ -110,6 +110,229 @@
       },
       "width": 900,
       "height": 1634
+    },
+    "auto-views-screen.webp": {
+      "source": "assets/originals/auto-views-screen.jpg",
+      "crop": {
+        "left": 0,
+        "top": 176,
+        "width": 1178,
+        "height": 2296
+      },
+      "edit": "iPhone back arrow and (i) icon in the header row painted white; nothing else changed",
+      "width": 1178,
+      "height": 2296,
+      "sizes": [
+        1178,
+        800,
+        600
+      ],
+      "quality": 92,
+      "note": "-800/-600: same crop, one Lanczos resample"
+    },
+    "pub-views-screen.webp": {
+      "source": "assets/originals/pub-views-screen.jpg",
+      "crop": {
+        "left": 0,
+        "top": 176,
+        "width": 1178,
+        "height": 2296
+      },
+      "edit": "iPhone back arrow and (i) icon in the header row painted white; nothing else changed",
+      "width": 1178,
+      "height": 2296,
+      "sizes": [
+        1178,
+        800,
+        600
+      ],
+      "quality": 92,
+      "note": "-800/-600: same crop, one Lanczos resample"
+    },
+    "frau-before-phone-{1300,1100,800,500}.webp": {
+      "source": "assets/originals/frau-before-screen.jpg",
+      "screenshot": [
+        1178,
+        2560
+      ],
+      "frame": "drawn to match the slide phones; screenshot unchanged inside it (1:1 in the 1300 file)",
+      "body": [
+        1278,
+        2660
+      ],
+      "bezel": 50,
+      "corner_radius": 201,
+      "screen_offset": [
+        61,
+        52
+      ],
+      "native": [
+        1300,
+        2664
+      ],
+      "quality": 92
+    },
+    "frau-after-phone-{1300,1100,800,500}.webp": {
+      "source": "assets/originals/frau-after-screen.jpg",
+      "screenshot": [
+        1178,
+        2560
+      ],
+      "frame": "drawn to match the slide phones; screenshot unchanged inside it (1:1 in the 1300 file)",
+      "body": [
+        1278,
+        2660
+      ],
+      "bezel": 50,
+      "corner_radius": 201,
+      "screen_offset": [
+        61,
+        52
+      ],
+      "native": [
+        1300,
+        2664
+      ],
+      "quality": 92
+    },
+    "spa-before-phone-{1300,1100,800,500}.webp": {
+      "source": "assets/originals/spa-before-screen.jpg",
+      "screenshot": [
+        1178,
+        2560
+      ],
+      "frame": "drawn to match the slide phones; screenshot unchanged inside it (1:1 in the 1300 file)",
+      "body": [
+        1278,
+        2660
+      ],
+      "bezel": 50,
+      "corner_radius": 201,
+      "screen_offset": [
+        61,
+        52
+      ],
+      "native": [
+        1300,
+        2664
+      ],
+      "quality": 92
+    },
+    "spa-after-phone-{1300,1100,800,500}.webp": {
+      "source": "assets/originals/spa-after-screen.jpg",
+      "screenshot": [
+        1178,
+        2560
+      ],
+      "frame": "drawn to match the slide phones; screenshot unchanged inside it (1:1 in the 1300 file)",
+      "body": [
+        1278,
+        2660
+      ],
+      "bezel": 50,
+      "corner_radius": 201,
+      "screen_offset": [
+        61,
+        52
+      ],
+      "native": [
+        1300,
+        2664
+      ],
+      "quality": 92
+    },
+    "auto-before-phone-{1300,1100,800,500}.webp": {
+      "source": "assets/originals/auto-before-screen.jpg",
+      "screenshot": [
+        1178,
+        2560
+      ],
+      "frame": "drawn to match the slide phones; screenshot unchanged inside it (1:1 in the 1300 file)",
+      "body": [
+        1278,
+        2660
+      ],
+      "bezel": 50,
+      "corner_radius": 201,
+      "screen_offset": [
+        61,
+        52
+      ],
+      "native": [
+        1300,
+        2664
+      ],
+      "quality": 92
+    },
+    "auto-after-phone-{1300,1100,800,500}.webp": {
+      "source": "assets/originals/auto-after-screen.jpg",
+      "screenshot": [
+        1178,
+        2560
+      ],
+      "frame": "drawn to match the slide phones; screenshot unchanged inside it (1:1 in the 1300 file)",
+      "body": [
+        1278,
+        2660
+      ],
+      "bezel": 50,
+      "corner_radius": 201,
+      "screen_offset": [
+        61,
+        52
+      ],
+      "native": [
+        1300,
+        2664
+      ],
+      "quality": 92
+    },
+    "ribay-before-phone-{1300,1100,800,500}.webp": {
+      "source": "assets/originals/ribay-before-screen.jpg",
+      "screenshot": [
+        1178,
+        2560
+      ],
+      "frame": "drawn to match the slide phones; screenshot unchanged inside it (1:1 in the 1300 file)",
+      "body": [
+        1278,
+        2660
+      ],
+      "bezel": 50,
+      "corner_radius": 201,
+      "screen_offset": [
+        61,
+        52
+      ],
+      "native": [
+        1300,
+        2664
+      ],
+      "quality": 92
+    },
+    "ribay-after-phone-{1300,1100,800,500}.webp": {
+      "source": "assets/originals/ribay-after-screen.jpg",
+      "screenshot": [
+        1178,
+        2560
+      ],
+      "frame": "drawn to match the slide phones; screenshot unchanged inside it (1:1 in the 1300 file)",
+      "body": [
+        1278,
+        2660
+      ],
+      "bezel": 50,
+      "corner_radius": 201,
+      "screen_offset": [
+        61,
+        52
+      ],
+      "native": [
+        1300,
+        2664
+      ],
+      "quality": 92
     }
-  }
+  },
+  "note_2026_10_14": "*-phone-{1300,1100,800,500}.webp: full iPhone screenshots (assets/originals/*-screen.jpg) inside a drawn frame matching the slide phones; the 1300 file keeps the screenshot 1:1, smaller sizes are one Lanczos resample of it; WebP q92; served with srcset. *-views-screen(-800|-600).webp: crops of phone screenshots of the statistics, q92, srcset."
 }

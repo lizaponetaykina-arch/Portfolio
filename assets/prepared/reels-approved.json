@@ -6,5 +6,6 @@
   "reference": "assets/work/auto-content.webp",
   "authorization": "User approved the enhanced quality, requested restoration of the black beanie in row 2 column 2, and explicitly chose to keep the entire phone while removing only its exterior background.",
   "prompt": "Preserve the approved sharp phone screenshot. Restore the black knit beanie on the man in row 2, middle column, 93,492 views. Remove only the beige exterior around the phone to transparent alpha. Preserve the entire physical phone, white UI, all twelve tiles and counters. No other changes.",
-  "note": "This is an enhanced presentation image, not an unchanged documentary screenshot. Original source retained. Statistical evidence in the separate dialogs remains cropped from original sources."
+  "note": "This is an enhanced presentation image, not an unchanged documentary screenshot. Original source retained. Statistical evidence in the separate dialogs remains cropped from original sources.",
+  "patch_2026_10_14": "The 13,737 tile photo (row 3, column 1; x 37-283, y 1145-1499) replaced with the same tile from assets/auto-result.png (153, 881.5)-(308, 1108.5), Lanczos, mild sharpening: the face had drifted. The counter capsule and Reels icon of that tile are kept from the approved image (same digits as the source)."
 }
