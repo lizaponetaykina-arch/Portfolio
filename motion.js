@@ -157,13 +157,19 @@
   document.body.append(viewportProbe);
   const coarsePointer = matchMedia('(pointer: coarse)');
   let readingWidth;
-  let readingHeight;
+  let readingHeight = 0;
   function measure() {
     const width = document.documentElement.clientWidth;
-    if (readingWidth !== width || !coarsePointer.matches) {
+    // In-app browsers (Telegram) can lay the page out before their sheet has its height,
+    // or report no svh at all; a frozen 0 sized every story and phone image to 0.
+    // So the frozen height may still grow, and an unusable one is never applied.
+    const probe = viewportProbe.getBoundingClientRect().height;
+    const height = probe >= 200 ? probe : innerHeight;
+    if (readingWidth !== width || !coarsePointer.matches || height > readingHeight) {
       readingWidth = width;
-      readingHeight = viewportProbe.getBoundingClientRect().height;
-      root.style.setProperty('--reading-height', `${readingHeight}px`);
+      readingHeight = height;
+      if (height >= 200) root.style.setProperty('--reading-height', `${height}px`);
+      else root.style.removeProperty('--reading-height');
     }
     const scrollLayout = !reduced.matches && readingHeight > 620;
     root.classList.toggle('scroll-layout', scrollLayout);
