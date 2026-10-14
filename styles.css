@@ -313,7 +313,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .media-card.reveal-wait { transform: translate3d(-28px,0,0); }
 .story-side.reveal-wait { transform: translate3d(64px,0,0); }
 .story-side:nth-child(even).reveal-wait { transform: translate3d(-64px,0,0); }
-.story-side.reveal-in { transition-duration: 1100ms; }
+.story-side.reveal-in { transition-duration: 1500ms; }
 /* Two columns: each frame enters from its own side, so they never cross in the middle. */
 @media (min-width: 701px) {
   .story-side.reveal-wait { transform: translate3d(-64px,0,0); }

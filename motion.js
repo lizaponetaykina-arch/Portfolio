@@ -65,7 +65,7 @@
     };
     const observer = new IntersectionObserver(reveal, {rootMargin: '0px 0px 40px 0px', threshold: 0});
     // The tall side-entering story cards (the COVID pair) start once their top reaches the middle of
-    // the screen, so the 1.1 s entrance plays while the card is in view, not before it.
+    // the screen, so the 1.5 s entrance plays while the card is in view, not before it.
     const lateObserver = new IntersectionObserver(reveal, {rootMargin: '0px 0px -50% 0px', threshold: 0});
     observers = [observer, lateObserver];
     // Visible and previously read content never disappears on return.
@@ -107,6 +107,24 @@
     el, sticky: el.querySelector('.comparison-sticky'),
     before: el.querySelector('.compare-before'), after: el.querySelector('.compare-after')
   }));
+  // Native lazy loading can ignore the translated, clipped "after" image until
+  // the reader has already scrolled it into view. Warm BOTH responsive images
+  // from the untransformed scene, roughly two screens before it is reached.
+  const prepareComparison = scene => {
+    scene.querySelectorAll('.phone-frame img').forEach(img => { img.loading = 'eager'; });
+  };
+  if ('IntersectionObserver' in window) {
+    const comparisonLoader = new IntersectionObserver((entries, observer) => {
+      entries.forEach(({target, isIntersecting}) => {
+        if (!isIntersecting) return;
+        prepareComparison(target);
+        observer.unobserve(target);
+      });
+    }, {rootMargin: `${Math.max(1200, innerHeight * 2)}px 0px`, threshold: 0});
+    scenes.forEach(({el}) => comparisonLoader.observe(el));
+  } else {
+    scenes.forEach(({el}) => prepareComparison(el));
+  }
   // The back-to-top button appears once the first screen has been scrolled past.
   const toTop = document.querySelector('.to-top');
   let scheduled = false;
